@@ -37,39 +37,45 @@ RSpec.describe 'The search API endpoints' do
         expect(item[:attributes][:name]).to_not eq(@item3.name)
       end
     end
-    xit 'sends every item by min price' do
-      get '/api/v1/items/find_all?min_price=50'
-    end
-    xit 'sends every item by max price' do
-      get '/api/v1/items/find_all?max_price=100'
-    end
-    xit 'sends every item by min and max price' do
-      get '/api/v1/items/find_all?min_price=50&max_price=200'
-    end
+    # xit 'sends every item by min price' do
+    #   get '/api/v1/items/find_all?min_price=50'
+    # end
+    # xit 'sends every item by max price' do
+    #   get '/api/v1/items/find_all?max_price=100'
+    # end
+    # xit 'sends every item by min and max price' do
+    #   get '/api/v1/items/find_all?min_price=50&max_price=200'
+    # end
   end
 
   describe 'sad path find one merchant' do
     before :each do
+      @merchant1 = Merchant.create(name: "Pabu")
+      @merchant2 = Merchant.create(name: "Loki")
+      @merchant2 = Merchant.create(name: "Thor")
+    end
+    it 'returns 404 if no match found' do
+      get '/api/v1/merchants/find?name=Apollo'
 
+      response_body = JSON.parse(response.body, symbolize_names: true)
+      merchant = response_body[:data]
+
+      expect(merchant).to eq([])
     end
-    xit 'returns 404 if no match found' do
-      get 'api/v1/merchants/find='
-    end
-    xit 'parameter cant be missing' do
-      get 'api/v1/merchants/find'
-    end
+    # xit 'parameter cant be missing' do
+    #   get 'api/v1/merchants/find'
+    # end
   end
 
   describe 'sad path find all items' do
-
-    xit 'cant send both name and min price' do
-      get '/api/v1/items/find_all?name=ring&min_price=10'
-    end
-    xit 'cant send both name and max price' do
-      get '/api/v1/items/find_all?name=ring&max_price=10'
-    end
-    xit 'cant send name, max, and min price' do
-      get '/api/v1/items/find_all?name=ring&min_price=10&max_price=100'
-    end
+    # xit 'cant send both name and min price' do
+    #   get '/api/v1/items/find_all?name=ring&min_price=10'
+    # end
+    # xit 'cant send both name and max price' do
+    #   get '/api/v1/items/find_all?name=ring&max_price=10'
+    # end
+    # xit 'cant send name, max, and min price' do
+    #   get '/api/v1/items/find_all?name=ring&min_price=10&max_price=100'
+    # end
   end
 end
