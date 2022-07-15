@@ -97,7 +97,7 @@ RSpec.describe 'The item API endpoints' do
     expect(item.name).to_not eq(previous_name)
     expect(item.name).to eq("Elucidator")
   end
-  xit "cant edit fake merchant" do
+  it "cant edit fake merchant" do
     merchant = create(:merchant)
     item = create(:item, merchant_id: merchant.id)
 
@@ -106,8 +106,7 @@ RSpec.describe 'The item API endpoints' do
 
     put "/api/v1/items/#{item.id}", headers: headers, params: JSON.generate({item: item_params})
 
-    expect(response).to be_successful
-    expect { Item.find(item.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    expect(response).to_not be_successful
   end
   it "gets merchant data for item" do
     merch = create(:merchant)
